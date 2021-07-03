@@ -16,7 +16,7 @@ class PhotoSeeder extends Seeder
 	{
 		DB::table('photos')->insert([
 			[
-				'photo_url' => env('APP_URL').'/public/storage/images/avatar.png',
+				'photo_url' => env('APP_URL').'/storage/images/avatar.png',
 				'created_at' => \Carbon\Carbon::now(),
 				'updated_at' => \Carbon\Carbon::now(),
 			]
