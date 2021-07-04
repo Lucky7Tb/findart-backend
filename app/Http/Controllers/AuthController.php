@@ -62,7 +62,7 @@ class AuthController extends Controller
 			} else {
 				$artFinder = new ArtFinder;
 				$artFinder->user_id = $user->id;
-				$art->province_id = $data['province_id'];
+				$artFinder->province_id = $data['province_id'];
 				$artFinder->city_id = $data['city_id'];
 				$artFinder->district_id = $data['district_id'];
 				$artFinder->sub_district_id = $data['sub_district_id'];
