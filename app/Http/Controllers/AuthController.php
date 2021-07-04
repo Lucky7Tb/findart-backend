@@ -49,6 +49,7 @@ class AuthController extends Controller
 			if ($user->role == 'ART') {
 				$art = new Art;
 				$art->user_id = $user->id;
+				$art->province_id = $data['province_id'];
 				$art->city_id = $data['city_id'];
 				$art->district_id = $data['district_id'];
 				$art->sub_district_id = $data['sub_district_id'];
@@ -61,6 +62,7 @@ class AuthController extends Controller
 			} else {
 				$artFinder = new ArtFinder;
 				$artFinder->user_id = $user->id;
+				$art->province_id = $data['province_id'];
 				$artFinder->city_id = $data['city_id'];
 				$artFinder->district_id = $data['district_id'];
 				$artFinder->sub_district_id = $data['sub_district_id'];
