@@ -55,7 +55,7 @@ class AuthController extends Controller
 				$art->photo_id = 1;
 				$art->art_phone_number = $data['phone_number'];
 				$art->art_address = $data['address'];
-				$art->full_name = $data['full_name'];
+				$art->art_name = $data['full_name'];
 				$art->job_status = 0;
 				$art->save();
 			} else {
@@ -67,7 +67,7 @@ class AuthController extends Controller
 				$artFinder->photo_id = 1;
 				$artFinder->art_finder_phone_number = $data['phone_number'];
 				$artFinder->art_finder_address = $data['address'];
-				$artFinder->full_name = $data['full_name'];
+				$artFinder->art_finder_name = $data['full_name'];
 				$artFinder->save();
 			}
 
