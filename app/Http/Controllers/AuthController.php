@@ -43,7 +43,6 @@ class AuthController extends Controller
 			$user = new User;
 			$user->username = $data['username'];
 			$user->password = $data['password'];
-			$user->province_id = $data['province_id'];
 			$user->role = $data['role'];
 			$user->save();
 
