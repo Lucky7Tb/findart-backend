@@ -19,10 +19,10 @@ Route::prefix('finder')->middleware('auth:sanctum')->group(function() {
 		Route::get('/', [\App\Http\Controllers\ArtFinder\JobVacancyController::class, 'getJob']);
 		Route::get('/{jobId}', [\App\Http\Controllers\ArtFinder\JobVacancyController::class, 'getDetailJob']);
 		Route::get('/interested-art/{jobId}', [\App\Http\Controllers\ArtFinder\JobVacancyController::class, 'getInterestedArt']);
-		Route::post('/', [\App\Http\Controllers\ArtFinder\JobVacancyController::class, 'createJob']);
+		Route::post('/create-job', [\App\Http\Controllers\ArtFinder\JobVacancyController::class, 'createJob']);
 		Route::post('/change-thumbnail/{jobId}', [\App\Http\Controllers\ArtFinder\JobVacancyController::class, 'changeJobThumbnail']);
-		Route::put('/{jobId}', [\App\Http\Controllers\ArtFinder\JobVacancyController::class, 'updateJob']);
-		Route::delete('/{jobId}', [\App\Http\Controllers\ArtFinder\JobVacancyController::class, 'deleteJob']);
+		Route::post('/update-job/{jobId}', [\App\Http\Controllers\ArtFinder\JobVacancyController::class, 'updateJob']);
+		Route::post('/delete-job/{jobId}', [\App\Http\Controllers\ArtFinder\JobVacancyController::class, 'deleteJob']);
 	});
 
 	Route::prefix('art')->group(function() {
@@ -34,8 +34,8 @@ Route::prefix('finder')->middleware('auth:sanctum')->group(function() {
 
 	Route::prefix('setting')->group(function(){
 		Route::post('/change-photo', [\App\Http\Controllers\ArtFinder\SettingController::class, 'changePhotoProfile']);
-		Route::put('/change-profile', [\App\Http\Controllers\ArtFinder\SettingController::class, 'changeProfile']);
-		Route::put('/change-password', [\App\Http\Controllers\ArtFinder\SettingController::class, 'changePassword']);
+		Route::post('/change-profile', [\App\Http\Controllers\ArtFinder\SettingController::class, 'changeProfile']);
+		Route::post('/change-password', [\App\Http\Controllers\ArtFinder\SettingController::class, 'changePassword']);
 	});
 });
 
@@ -49,7 +49,7 @@ Route::prefix('art')->middleware('auth:sanctum')->group(function() {
 
 	Route::prefix('setting')->group(function () {
 		Route::post('/change-photo', [\App\Http\Controllers\Art\SettingController::class, 'changePhotoProfile']);
-		Route::put('/change-profile', [\App\Http\Controllers\Art\SettingController::class, 'changeProfile']);
-		Route::put('/change-password', [\App\Http\Controllers\Art\SettingController::class, 'changePassword']);
+		Route::post('/change-profile', [\App\Http\Controllers\Art\SettingController::class, 'changeProfile']);
+		Route::post('/change-password', [\App\Http\Controllers\Art\SettingController::class, 'changePassword']);
 	});
 });
