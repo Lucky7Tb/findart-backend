@@ -9,7 +9,8 @@ use App\Models\JobVacancy;
 use App\Models\ArtInterestedJob;
 use Illuminate\Support\Facades\Log;
 use App\Http\Controllers\Controller;
-use App\Http\Requests\JobVacancyRequest;
+use App\Http\Requests\JobVacancyCreateRequest;
+use App\Http\Requests\JobVacancyUpdateRequest;
 use App\Http\Requests\ChangeJobThumbnailRequest;
 class JobVacancyController extends Controller
 {
@@ -92,7 +93,7 @@ class JobVacancyController extends Controller
   	}
   }
 
-  public function createJob(JobVacancyRequest $request)
+  public function createJob(JobVacancyCreateRequest $request)
   {
   	try {
 			$data = $request->validated();
@@ -129,7 +130,7 @@ class JobVacancyController extends Controller
   	}
   }
 
-  public function updateJob(JobVacancyRequest $request, $jobId)
+  public function updateJob(JobVacancyUpdateRequest $request, $jobId)
   {
   	try {
   		$data = $request->validated();
