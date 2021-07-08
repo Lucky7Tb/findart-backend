@@ -49,25 +49,27 @@ class AuthController extends Controller
 			if ($user->role == 'ART') {
 				$art = new Art;
 				$art->user_id = $user->id;
+				$art->province_id = $data['province_id'];
 				$art->city_id = $data['city_id'];
 				$art->district_id = $data['district_id'];
 				$art->sub_district_id = $data['sub_district_id'];
 				$art->photo_id = 1;
 				$art->art_phone_number = $data['phone_number'];
 				$art->art_address = $data['address'];
-				$art->full_name = $data['full_name'];
+				$art->art_name = $data['full_name'];
 				$art->job_status = 0;
 				$art->save();
 			} else {
 				$artFinder = new ArtFinder;
 				$artFinder->user_id = $user->id;
+				$artFinder->province_id = $data['province_id'];
 				$artFinder->city_id = $data['city_id'];
 				$artFinder->district_id = $data['district_id'];
 				$artFinder->sub_district_id = $data['sub_district_id'];
 				$artFinder->photo_id = 1;
 				$artFinder->art_finder_phone_number = $data['phone_number'];
 				$artFinder->art_finder_address = $data['address'];
-				$artFinder->full_name = $data['full_name'];
+				$artFinder->art_finder_name = $data['full_name'];
 				$artFinder->save();
 			}
 

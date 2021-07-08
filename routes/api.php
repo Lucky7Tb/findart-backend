@@ -42,7 +42,7 @@ Route::prefix('finder')->middleware('auth:sanctum')->group(function() {
 Route::prefix('art')->middleware('auth:sanctum')->group(function() {
 	Route::prefix('job')->group(function() {
 		Route::get('/', [\App\Http\Controllers\Art\JobController::class, 'getJob']);
-		Route::get('/history-apply', [\App\Http\Controllers\Art\JobController::class, 'historyApplyJob']);
+		Route::get('/applied-job', [\App\Http\Controllers\Art\JobController::class, 'getAppliedJob']);
 		Route::get('/{jobId}', [\App\Http\Controllers\Art\JobController::class, 'getDetailJob']);
 		Route::post('/apply-job/{jobId}', [\App\Http\Controllers\Art\JobController::class, 'applyJob']);
 	});

@@ -8,9 +8,6 @@ use Illuminate\Support\Facades\Log;
 use App\Http\Controllers\Controller;
 use App\Models\Art;
 use App\Models\ArtInterestedJob;
-use Illuminate\Contracts\Queue\Job;
-use Psy\Command\HistoryCommand;
-
 class JobController extends Controller
 {
 	public function getJob(Request $request)
@@ -20,7 +17,8 @@ class JobController extends Controller
 				'job_vacancy.id as job_vacancy_id',
 				'job_vacancy.art_finder_id',
 				'job_vacancy.photo_id',
-				'job_vacancy.job_payment'
+				'job_vacancy.job_payment',
+				'job_vacancy.job_due_date'
 			])
 				->join('art_finder', 'art_finder.id', '=', 'job_vacancy.art_finder_id')
 				->when($request->get('province_id'), function($query) use($request) {
@@ -37,7 +35,7 @@ class JobController extends Controller
 				])
 				->visibleJobVacancy()
 				->stillAvailable()
-				->paginate(20);
+				->simplePaginate(10);
 
 			return response()->json([
 				'message' => 'Berhasil mengambil data lowongan',
@@ -67,7 +65,8 @@ class JobController extends Controller
 				->join('art_finder', 'art_finder.id', '=', 'job_vacancy.art_finder_id')
 				->with([
 					'photo:id,photo_url',
-					'artFinder:id,province_id,city_id,district_id,sub_district_id,art_finder_name',
+					'artFinder:id,province_id,city_id,district_id,sub_district_id,photo_id,art_finder_name',
+					'artFinder.photo:id,photo_url',
 					'artFinder.province:id,name',
 					'artFinder.city:id,name',
 					'artFinder.district:id,name',
@@ -89,12 +88,12 @@ class JobController extends Controller
 		}
 	}
 
-	public function historyApplyJob(Request $request)
+	public function getAppliedJob(Request $request)
 	{
 		try {
 			$art = Art::select('id')->where('user_id', $request->user()->id)->first();
 
-			$historyApplyJob = ArtInterestedJob::select([
+			$appliedJob = ArtInterestedJob::select([
 				'art_interested_job.job_vacancy_id',
 				'art_interested_job.apply_status',
 			])
@@ -110,8 +109,8 @@ class JobController extends Controller
 				->get();
 
 			return response()->json([
-				'message' => 'Berhasil mengambil history',
-				'serve' => $historyApplyJob
+				'message' => 'Berhasil mengambil data lowongan',
+				'serve' => $appliedJob
 			], 200);
 
 		} catch (\Exception $e) {
