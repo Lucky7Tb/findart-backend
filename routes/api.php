@@ -45,6 +45,7 @@ Route::prefix('art')->middleware('auth:sanctum')->group(function() {
 		Route::get('/applied-job', [\App\Http\Controllers\Art\JobController::class, 'getAppliedJob']);
 		Route::get('/{jobId}', [\App\Http\Controllers\Art\JobController::class, 'getDetailJob']);
 		Route::post('/apply-job/{jobId}', [\App\Http\Controllers\Art\JobController::class, 'applyJob']);
+		Route::post('/cancel-apply-job/{id}', [\App\Http\Controllers\Art\JobController::class, 'cancelApplyJob']);
 	});
 
 	Route::prefix('setting')->group(function () {

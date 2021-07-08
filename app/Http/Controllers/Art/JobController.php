@@ -35,6 +35,7 @@ class JobController extends Controller
 				])
 				->visibleJobVacancy()
 				->stillAvailable()
+				->orderBy('job_vacancy.created_at', 'desc')
 				->simplePaginate(10);
 
 			return response()->json([
@@ -65,7 +66,7 @@ class JobController extends Controller
 				->join('art_finder', 'art_finder.id', '=', 'job_vacancy.art_finder_id')
 				->with([
 					'photo:id,photo_url',
-					'artFinder:id,province_id,city_id,district_id,sub_district_id,photo_id,art_finder_name',
+					'artFinder:id,province_id,city_id,district_id,sub_district_id,photo_id,art_finder_name,art_finder_address',
 					'artFinder.photo:id,photo_url',
 					'artFinder.province:id,name',
 					'artFinder.city:id,name',
@@ -91,21 +92,25 @@ class JobController extends Controller
 	public function getAppliedJob(Request $request)
 	{
 		try {
-			$art = Art::select('id')->where('user_id', $request->user()->id)->first();
+			$art = Art::select(['id'])->where('user_id', $request->user()->id)->first();
 
 			$appliedJob = ArtInterestedJob::select([
+				'art_interested_job.id',
 				'art_interested_job.job_vacancy_id',
 				'art_interested_job.apply_status',
 			])
 				->with([
-					'jobVacancy:id,art_finder_id,photo_id',
+					'jobVacancy:id,art_finder_id,photo_id,job_payment,job_due_date',
 					'jobVacancy.photo:id,photo_url',
-					'jobVacancy.artFinder:id,art_finder_name'
+					'jobVacancy.artFinder:id,province_id,city_id,art_finder_name,art_finder_phone_number',
+					'jobVacancy.artFinder.province:id,name',
+					'jobVacancy.artFinder.city:id,name',
 				])
 				->where('art_id', $art['id'])
 				->when($request->get('apply_status') != '-1', function($query) use($request) {
 					return $query->where('apply_status', $request->get('apply_status'));
 				})
+				->orderBy('art_interested_job.updated_at', 'desc')
 				->get();
 
 			return response()->json([
@@ -152,6 +157,26 @@ class JobController extends Controller
 
 			return response()->json([
 				'message' => 'Berhasil mendaftar ke lowongan ini',
+				'serve' => []
+			], 200);
+		} catch (\Exception $e) {
+			Log::error('Error: code: ' . $e->getCode() . ', ' . $e->getMessage() . ' on file: ' . $e->getFile() . ' ' . $e->getLine());
+
+			return response()->json([
+				'message' => 'Terjadi kesalahan pada server',
+				'serve' => []
+			], 500);
+		}
+	}
+
+	public function cancelApplyJob($id)
+	{
+		try {
+			$artInterestedJob = ArtInterestedJob::find($id);
+			$artInterestedJob->delete();
+
+			return response()->json([
+				'message' => 'Berhasil cancel lamaran ke lowongan',
 				'serve' => []
 			], 200);
 		} catch (\Exception $e) {
